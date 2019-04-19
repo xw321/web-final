@@ -93,10 +93,10 @@ export default class App extends Component {
     event.preventDefault();
     if (this.state.wikiSearch !== "") {
       console.log("1");
-      this.setState({ isloading: true });
+      this.setState({ history: [this.state.wikiSearch], isloading: true });
 
-      let newHistory = this.state.history.concat(this.state.wikiSearch);
-      this.setState({ history: newHistory });
+      // let newHistory = this.state.history.concat(this.state.wikiSearch);
+      // this.setState({ history: newHistory });
 
       console.log("2");
       Meteor.call("searchWiki", this.state.wikiSearch, (error, result) => {

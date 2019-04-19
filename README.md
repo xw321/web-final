@@ -1,6 +1,6 @@
-# web-final
+# Web-final-exam
 
-final exam for web dev class at NEU
+Final exam for web dev class at NEU
 
 final examfor Web Development course(CS5610) in Northeastern University, Silicon Valley (Spring 2019 semester). You can find the couse web page [here](http://johnguerra.co/classes/webDevelopment_spring_2019/ "CS-5610 Web Development Spring 2019").
 
@@ -12,7 +12,7 @@ Final exam for web dev class at NEU. Using wiki api to search wiki.
 
 ## Features
 
-Search wiki and navigate via history/links buttons.
+Search wiki and navigate via history/links buttons. All Link buttons will be updated in the History Section, unless a new search querry is submitted, which will clear the history section.
 
 ## Creative part
 
@@ -30,7 +30,7 @@ React
 
 ## Usage
 
-Clone the repo, then open the terminal on the folder created and run
+Clone the repo, then open the terminal, navigate to the project forlder. On the folder created and run
 
 ```
 meteor npm install
