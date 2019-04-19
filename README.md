@@ -22,7 +22,7 @@ Add a loading stae/icon to better serve user while fetching data.
 
 Add a segment with scroll bar for Links section, since often times there are many links.
 
-## Requires
+## Requires/ Tech Stack used
 
 Meteor
 
