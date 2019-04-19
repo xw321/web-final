@@ -8,9 +8,9 @@ This project is made by [Xun Wang](https://xw321.github.io/).
 
 Final exam for web dev class at NEU. Using wiki api to search wiki.
 
-## Demo
+## Demo image
 
-![]()
+![](https://raw.githubusercontent.com/xw321/web-final-exam/master/demo.png)
 
 ## Features
 
