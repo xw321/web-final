@@ -30,6 +30,10 @@ npm
 
 React
 
+Semantic UI (just a few)
+
+[node-wikipedia API wrapper](https://www.npmjs.com/package/node-wikipedia)
+
 ## Usage
 
 Clone the repo, then open the terminal, navigate to the project forlder. On the folder created and run
