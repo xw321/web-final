@@ -14,6 +14,10 @@ Final exam for web dev class at NEU. Using wiki api to search wiki.
 
 Search wiki and navigate via history/links buttons.
 
+## Creative part
+
+Add a loading stae/icon to better serve user while fetching data.
+
 ## Requires
 
 Meteor

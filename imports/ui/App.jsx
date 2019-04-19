@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 
-import { Button } from "semantic-ui-react";
+import { Button, Input } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 export default class App extends Component {
@@ -13,7 +13,8 @@ export default class App extends Component {
       title: "",
       content: "",
       history: [],
-      links: []
+      links: [],
+      isLoading: false
     };
     this.renderHistory = this.renderHistory.bind(this);
     this.renderLinks = this.renderLinks.bind(this);
@@ -109,17 +110,16 @@ export default class App extends Component {
       <div>
         <h2>Wiki Search</h2>
         <div>
-          <form action="">
-            <label htmlFor="wikiSearch">Wiki Search: </label>
-            <input
-              id="wikiSearch"
-              type="text"
-              name={"wikiSearch"}
-              value={this.state.wikiSearch}
-              onChange={e => this.handleChangeSearch(e)}
-            />
-            <button onClick={e => this.handleSearch(e)}>Submit</button>
-          </form>
+          <label htmlFor="wikiSearch">Wiki Search: </label>
+          <Input
+            id="wikiSearch"
+            type="text"
+            name={"wikiSearch"}
+            loading={this.state.isloading}
+            value={this.state.wikiSearch}
+            onChange={e => this.handleChangeSearch(e)}
+          />
+          <button onClick={e => this.handleSearch(e)}>Submit</button>
         </div>
 
         <hr />
