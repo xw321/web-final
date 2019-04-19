@@ -18,6 +18,8 @@ Search wiki and navigate via history/links buttons.
 
 Add a loading stae/icon to better serve user while fetching data.
 
+Add a segment with scroll bar for Links section, since often times there are many links.
+
 ## Requires
 
 Meteor

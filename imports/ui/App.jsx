@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 
-import { Button, Input } from "semantic-ui-react";
+import { Image, Button, Segment } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 export default class App extends Component {
@@ -24,7 +24,11 @@ export default class App extends Component {
     if (this.state.history.length !== 0) {
       console.log("render History");
       return this.state.history.map((c, i) => (
-        <Button key={i++} onClick={e => this.historyButtonSearch(e, c)}>
+        <Button
+          size={"mini"}
+          key={i++}
+          onClick={e => this.historyButtonSearch(e, c)}
+        >
           {c}
         </Button>
       ));
@@ -36,7 +40,6 @@ export default class App extends Component {
       console.log("cc:--" + this.state.links[0]["*"]);
       return this.state.links.map((c, i) => (
         <Button
-          primary
           size={"mini"}
           key={i++}
           onClick={e => this.buttonSearch(e, c["*"])}
@@ -58,13 +61,14 @@ export default class App extends Component {
     console.log("HISTORY button!!:  ");
     let index = this.state.history.indexOf(term);
     let newArr = this.state.history.slice(0, index + 1);
-    this.setState({ history: newArr });
+    this.setState({ history: newArr, isloading: true });
     Meteor.call("searchWiki", term, (error, result) => {
       this.setState({
         wikiSearch: "",
         title: result.title,
         content: result.text,
-        links: result.links
+        links: result.links,
+        isloading: false
       });
     });
   }
@@ -73,13 +77,14 @@ export default class App extends Component {
     event.preventDefault();
     console.log("button:  ");
     let newHistory = this.state.history.concat(term);
-    this.setState({ history: newHistory });
+    this.setState({ history: newHistory, isloading: true });
     Meteor.call("searchWiki", term, (error, result) => {
       this.setState({
         wikiSearch: "",
         title: result.title,
         content: result.text,
-        links: result.links
+        links: result.links,
+        isloading: false
       });
     });
   }
@@ -88,6 +93,7 @@ export default class App extends Component {
     event.preventDefault();
     if (this.state.wikiSearch !== "") {
       console.log("1");
+      this.setState({ isloading: true });
 
       let newHistory = this.state.history.concat(this.state.wikiSearch);
       this.setState({ history: newHistory });
@@ -99,7 +105,8 @@ export default class App extends Component {
           wikiSearch: "",
           title: result.title,
           content: result.text,
-          links: result.links
+          links: result.links,
+          isloading: false
         });
       });
     }
@@ -108,22 +115,25 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h2>Wiki Search</h2>
+        <h1>Wiki Search</h1>
         <div>
           <label htmlFor="wikiSearch">Wiki Search: </label>
-          <Input
-            id="wikiSearch"
-            type="text"
-            name={"wikiSearch"}
-            loading={this.state.isloading}
-            value={this.state.wikiSearch}
-            onChange={e => this.handleChangeSearch(e)}
-          />
-          <button onClick={e => this.handleSearch(e)}>Submit</button>
+          <form>
+            <input
+              id="wikiSearch"
+              type="text"
+              name={"wikiSearch"}
+              value={this.state.wikiSearch}
+              onChange={e => this.handleChangeSearch(e)}
+            />
+            <button onClick={e => this.handleSearch(e)}>Submit</button>
+          </form>
         </div>
 
         <hr />
-
+        {this.state.isloading ? (
+          <Image size={"medium"} src={"imgs/loading.gif"} centered />
+        ) : null}
         <br />
         <div>
           <h2>History: </h2>
@@ -132,7 +142,9 @@ export default class App extends Component {
         <br />
         <div>
           <h2>Links: </h2>
-          <div>{this.renderLinks()}</div>
+          <Segment style={{ overflow: "auto", maxHeight: 400 }}>
+            {this.renderLinks()}
+          </Segment>
         </div>
         <br />
         <div>
