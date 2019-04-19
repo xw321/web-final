@@ -1,40 +1,104 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
-// import { withTracker } from "meteor/react-meteor-data";
 
+import { Button } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      comment: "",
       wikiSearch: "",
       data: [],
-      response: "",
-      title: ""
+      title: "",
+      content: "",
+      history: [],
+      links: []
     };
+    this.renderHistory = this.renderHistory.bind(this);
+    this.renderLinks = this.renderLinks.bind(this);
   }
 
-  renderHistory() {}
-  // 每当用户在wikiSearch对应的输入框中输入信息时，就会调用这个函数来修改this.state.wikiSearch字段的信息
+  renderHistory() {
+    if (this.state.history.length !== 0) {
+      console.log("render History");
+      return this.state.history.map((c, i) => (
+        <Button key={i++} onClick={e => this.historyButtonSearch(e, c)}>
+          {c}
+        </Button>
+      ));
+    }
+  }
+
+  renderLinks() {
+    if (this.state.links.length !== 0) {
+      console.log("cc:--" + this.state.links[0]["*"]);
+      return this.state.links.map((c, i) => (
+        <Button
+          primary
+          size={"mini"}
+          key={i++}
+          onClick={e => this.buttonSearch(e, c["*"])}
+        >
+          {c["*"]}
+        </Button>
+      ));
+    }
+  }
+
   handleChangeSearch(event) {
     this.setState({
       wikiSearch: event.target.value
     });
   }
 
+  historyButtonSearch(event, term) {
+    event.preventDefault();
+    console.log("HISTORY button!!:  ");
+    let index = this.state.history.indexOf(term);
+    let newArr = this.state.history.slice(0, index + 1);
+    this.setState({ history: newArr });
+    Meteor.call("searchWiki", term, (error, result) => {
+      this.setState({
+        wikiSearch: "",
+        title: result.title,
+        content: result.text,
+        links: result.links
+      });
+    });
+  }
+
+  buttonSearch(event, term) {
+    event.preventDefault();
+    console.log("button:  ");
+    let newHistory = this.state.history.concat(term);
+    this.setState({ history: newHistory });
+    Meteor.call("searchWiki", term, (error, result) => {
+      this.setState({
+        wikiSearch: "",
+        title: result.title,
+        content: result.text,
+        links: result.links
+      });
+    });
+  }
+
   handleSearch(event) {
     event.preventDefault();
     if (this.state.wikiSearch !== "") {
+      console.log("1");
+
+      let newHistory = this.state.history.concat(this.state.wikiSearch);
+      this.setState({ history: newHistory });
+
+      console.log("2");
       Meteor.call("searchWiki", this.state.wikiSearch, (error, result) => {
-        console.log("red:  " + result.links);
-        console.log("res--:  " + JSON.stringify(result.title));
+        console.log("res--3-- length:  " + result.links.length);
         this.setState({
           wikiSearch: "",
-          data: result.data,
-          tile: result.title
+          title: result.title,
+          content: result.text,
+          links: result.links
         });
       });
     }
@@ -63,14 +127,17 @@ export default class App extends Component {
         <br />
         <div>
           <h2>History: </h2>
+          <div>{this.renderHistory()}</div>
         </div>
         <br />
         <div>
           <h2>Links: </h2>
+          <div>{this.renderLinks()}</div>
         </div>
         <br />
         <div>
           <h2>Content: {this.state.title}</h2>
+          <span dangerouslySetInnerHTML={{ __html: this.state.content["*"] }} />
         </div>
       </div>
     );
