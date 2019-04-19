@@ -4,6 +4,8 @@ Final exam for Web Development course(CS5610) in Northeastern University, Silico
 
 This project is made by [Xun Wang](https://xw321.github.io/).
 
+## Submitted during 1 hour extension 
+
 ## Description
 
 Final exam for web dev class at NEU. Using wiki api to search wiki.
